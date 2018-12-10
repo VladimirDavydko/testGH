@@ -1,0 +1,50 @@
+<aura:component implements="flexipage:availableForRecordHome,lightning:actionOverride,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:lightningQuickAction" controller="GreenHouseIntegrationSettings">    
+    
+    <!-- aura attributes-->
+    <aura:attribute name="greenhouseMapping" type="greenhouseMappingWrapper"/>
+    <aura:attribute name="objName" type="String"/>
+    <aura:attribute name="ContactsearchKeyWord" type="List"/>
+    <!--ltng:require scripts="{!$Resource.jQuery}" afterScriptsLoaded="{!c.setScriptLoaded}" /-->
+    
+    <aura:attribute name="searchValue" type="string" default=""/>
+    <aura:attribute name="objectFieldList" type="List" default="[]"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="required" type="boolean" default="false"/>
+    
+    <!-- Table Row -->
+    <aura:if isTrue="{!!empty(v.greenhouseMapping)}">
+        <tr class="slds-text-title">
+            <td>
+                <ui:outputText  class="slds-input test read-only-text" value="{!v.greenhouseMapping.greenhouseProperty}"/>
+            </td>
+            <td class="predictList">
+                <aura:if isTrue="{!v.greenhouseMapping.required}">
+               
+                    <input type="search" aura:id="requiredField" class="slds-input requiredStyle" value="{!v.greenhouseMapping.salesforceField}" onclick="{!c.getAllFields}" onkeyup="{!c.getSelectedFields}" onblur="{!c.onclickOutside}"/>
+                    
+                    <aura:set attribute="else">
+                        <input type="search" class="slds-input" value="{!v.greenhouseMapping.salesforceField}" onclick="{!c.getAllFields}" onkeyup="{!c.getSelectedFields}" onblur="{!c.onclickOutside}"/>
+                    </aura:set>
+                </aura:if>
+                <!--lightning:input type="search" variant="label-hidden" value="{!v.greenhouseMapping.salesforceField}" onclick="{!c.getAllFields}" onkeyup="{!c.getSelectedFields}" onblur="{!c.onclickOutside}"/-->
+                <aura:if isTrue="{!v.objectFieldList.length > 0}">
+                    <ul class="city_predictions">
+                        <aura:iteration items="{!v.objectFieldList}" var="objField">
+                            <li class="slds-listbox__item">
+                                <div onclick="{!c.getSelectedFieldName}" data-label="{!objField.value}">{!objField.value}</div>
+                            </li>
+                        </aura:iteration>
+                    </ul> 	 
+                </aura:if>
+            </td>
+            <td>
+                <ui:inputCheckbox class="single" value="{!v.greenhouseMapping.synField}"/>
+            </td>
+            <!--td>
+                {!v.greenhouseMapping.salesforceReferenceField}
+            </td-->
+           
+        </tr>
+    </aura:if>
+</aura:component>

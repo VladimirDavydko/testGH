@@ -1,0 +1,24 @@
+<!--  
+* This component is used to Sync with GreenHouse .
+* Code Written by: Ajay Kumar
+* on Date : 10/23/2018 11:00 AM
+* Last Modified By Ajay Kumar ,  10/23/2018 
+ -->
+<aura:component access="GLOBAL" controller="greenhouseSyncController" implements="force:appHostable,force:hasRecordId,force:lightningQuickAction">
+	<!-- call doInit function on component load -->  
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <!-- Attribute for record Id -->
+    <aura:attribute name="recordId" type="Id" />
+    <!-- Attribute for spinner -->
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <div class="demo-only" style="height: 6rem;">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    
+    
+</aura:component>

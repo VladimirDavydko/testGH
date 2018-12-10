@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Greenhouse_Parent_Table__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Greenhouse Parent Table</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Greenhouse_Property__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Greenhouse Property</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Greenhouse_Table__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Greenhouse Table</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Required__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Required</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Salesforce_Field__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Salesforce Field</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Salesforce_Object__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Salesforce Object</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Value__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Value</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Greenhouse Default Mapping</label>
+    <listViews>
+        <fullName>All_Candidates</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Greenhouse_Parent_Table__c</columns>
+        <columns>Greenhouse_Table__c</columns>
+        <columns>Greenhouse_Property__c</columns>
+        <columns>Salesforce_Object__c</columns>
+        <columns>Salesforce_Field__c</columns>
+        <columns>Value__c</columns>
+        <columns>Required__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Greenhouse_Table__c</field>
+            <operation>equals</operation>
+            <value>Candidates</value>
+        </filters>
+        <label>All Candidates</label>
+    </listViews>
+    <pluralLabel>DefaultGreenhouseMapping</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

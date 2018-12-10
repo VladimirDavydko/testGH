@@ -1,0 +1,20 @@
+<apex:page sidebar="false">
+    <style>
+        .split-left{
+        position:absolute!important;
+        }
+    </style>
+    <apex:includeLightning />
+		
+    <div id="lightning" />
+
+    <script>
+        $Lightning.use("c:greenhouseObjectSettingApp", function() {
+          $Lightning.createComponent("c:greenhouseObjectSetting",
+          {},
+          "lightning",
+          function(cmp) {
+          });
+        });
+    </script>
+</apex:page>

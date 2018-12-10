@@ -1,0 +1,53 @@
+.THIS .test{
+    line-height: 25px!important;
+    text-transform: capitalize;
+}
+.THIS .requiredStyle{
+    /*border: 1px solid rgb(255, 0, 0);*/
+    border-color: rgb(194, 57, 52);
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset
+    
+}
+
+.THIS .required-input{
+	color:red!important;
+    line-height:18px!important;
+    padding: 0;
+    vertical-align: bottom;
+    margin-top: -5%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    float: right;
+    margin-right: 1%;
+}
+.THIS .city_predictions{
+    max-height: 100px;
+    
+    overflow-y: scroll;
+    border: 1px solid #dddddd;
+    background-color: #fff;
+    cursor: pointer;
+    float: none;
+	margin-top: 0%;
+    z-index: 11111;
+    position:absolute;
+    width: 98%;
+    
+}
+.THIS .city_predictions li{
+    padding:0.5rem;
+    transition:all .3s linear;
+    -webkit-transition:all .3s linear;
+    -moz-transition:all .3s linear;
+    -ms-transition:all .3s linear;
+}
+.THIS .city_predictions li:hover{
+    background-color:#e2e2e2;
+}
+.THIS .predictList{
+    position:relative;
+}
+.THIS .read-only-text{
+    background-color:#e2e2e2;
+    cursor: no-drop;
+}

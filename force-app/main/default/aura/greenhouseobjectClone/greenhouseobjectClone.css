@@ -1,0 +1,572 @@
+.THIS {
+    position: absolute;
+    /*top: 96px;*/
+    left: 0;
+    right: 0;
+    min-height: 100%;
+    height:auto;
+    overflow: visible;
+    z-index: 0;
+    overflow-x:hidden;
+}
+
+.THIS .slds-assistive-text{
+    display:none;
+}
+.THIS .button  {
+    position: relative;
+}
+
+.THIS .button:hover:after {
+    position: absolute;
+    top: 0;
+    left: 75%;
+    width: 100%;
+    content: attr(title);
+    background-color: #ffa;
+    color: #000;
+    line-height: 1.4em;
+    border: 1px solid #000;
+}
+.THIS::selection{
+    background:transparent!important;
+}
+.THIS .page-header{
+    background-color:#fff;
+}
+
+.THIS .sync{
+    margin-left: 45%;
+    color: #294165;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    line-height: 20px;
+}
+.THIS .sync-btn{
+    white-space: nowrap;
+    margin-top: 0%;
+    right: 50%;
+    color: #0070D2;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    line-height: 32px;	
+    text-align: center;
+}
+.THIS .integration-toggle{
+    margin-top:5px;
+    margin-left:3%;
+}
+.THIS .sync-accordian .slds-tree__item a{
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 20px;
+}
+.THIS .sync-accordian .slds-tree__item button{
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 16px;
+    margin-top:0;
+}
+.THIS .mngbtn{
+    color: #0070D2;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    letter-spacing: -0.01px;	
+    line-height: 17px;
+}
+.THIS .mngbtn:hover{
+    color: rgba(27, 82, 151, 1.0)!important;
+    }
+.THIS .city_predictions{
+    max-height: 100px;   
+    overflow-y: scroll;
+    border: 1px solid #dddddd;
+    background-color: #fff;
+    cursor: pointer;
+    float: none;
+	margin-top: 0%;
+    z-index: 11111;
+    position:absolute;
+    width: 98%;
+    
+}
+.THIS .integration-toggle .slds-checkbox_faux{
+    background-color:rgb(176, 173, 171);
+    border:1px solid rgb(176, 173, 171);
+    -webkit-transition: background-color 0.2s cubic-bezier(0.75, 0, 0.08, 1);
+    transition: background-color 0.2s cubic-bezier(0.75, 0, 0.08, 1);
+}
+.THIS .integration-toggle .slds-checkbox_toggle[type="checkbox"][disabled]:focus + .slds-checkbox_faux_container .slds-checkbox_faux{
+    background-color:#969492!important;
+    border:1px solid #969492!important;
+}
+.THIS .integration-toggle .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_faux{
+     background-color:rgb(176, 173, 171)!important;
+    border:1px solid rgb(176, 173, 171)!important;
+}
+.THIS .integration-toggle .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_faux:focus{
+    background-color:#969492!important;
+    border:1px solid #969492!important;
+}
+.THIS .integration-toggle .slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux{     
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;    
+}
+.THIS .integration-toggle .slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux:hover{
+    border-color: rgba(27, 82, 151, 1.0)!important;
+    background-color: rgba(27, 82, 151, 1.0)!important;
+}
+.THIS .sync-toggle .slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux:hover{
+    border-color: rgba(27, 82, 151, 1.0)!important;
+    background-color: rgba(27, 82, 151, 1.0)!important;
+}
+.THIS .sync-toggle .slds-checkbox_faux:hover{
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;
+}
+
+.THIS .sync-toggle .slds-checkbox_faux{
+    background-color:rgb(176, 173, 171);
+    border:1px solid rgb(176, 173, 171);
+    -webkit-transition: background-color 0.2s cubic-bezier(0.75, 0, 0.08, 1);
+    transition: background-color 0.2s cubic-bezier(0.75, 0, 0.08, 1);
+}
+.THIS .sync-toggle .slds-checkbox_toggle[type="checkbox"][disabled]:focus + .slds-checkbox_faux_container .slds-checkbox_faux{
+    background-color:#969492!important;
+    border:1px solid #969492!important;
+}
+.THIS .sync-toggle .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_faux{
+     background-color:rgb(176, 173, 171)!important;
+    border:1px solid rgb(176, 173, 171)!important;
+}
+.THIS .sync-toggle .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_faux:focus{
+    background-color:#969492!important;
+    border:1px solid #969492!important;
+}
+.THIS .sync-toggle .slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux{     
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;    
+}
+.THIS .sync-toggle .slds-checkbox_toggle [type=checkbox]:checked+.slds-checkbox_faux_container .slds-checkbox_faux:hover{
+    border-color: rgba(27, 82, 151, 1.0)!important;
+    background-color: rgba(27, 82, 151, 1.0)!important;
+}
+.THIS .sync-toggle .slds-checkbox_faux:hover{
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;
+}
+.THIS .sync-toggle .slds-checkbox_faux{
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;
+}
+.THIS  .sync-toggle .slds-checkbox_faux:hover{
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;
+}
+.THIS .submit-btn{
+    background-color:#006dcd!important;
+    border-color:#006dcd!important;
+}
+.THIS .submit-btn:hover{
+    border-color: rgba(27, 82, 151, 1.0)!important;
+    background-color: rgba(27, 82, 151, 1.0)!important;
+}
+.THIS .city_predictions li{
+    padding:0.25rem 0.5rem;
+    transition:all .3s linear;
+    -webkit-transition:all .3s linear;
+    -moz-transition:all .3s linear;
+    -ms-transition:all .3s linear;
+}
+.THIS .city_predictions li:hover{
+    background-color:#e2e2e2;
+}
+.THIS .city_predictions::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	/*border-radius: 10px;*/
+	background-color: #F5F5F5;
+}
+
+.THIS .city_predictions::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+.THIS .city_predictions::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+    height:20%;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #999;
+}
+
+.THIS .inputSearch{
+    margin-bottom:10px;
+}
+.THIS .predictList{
+    position:relative;
+    padding: 0 1% 0 0;
+}
+.THIS .lookup-type{
+    vertical-align:top;
+    padding: 0 1% 0 0;
+}
+.THIS .fill-container{
+    height: 100%;
+   
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 0;
+    border: none;
+    border-radius: 0;
+}
+.THIS .fill-container h1{
+    padding-left:1rem;
+    padding-bottom:.5rem;
+    color: #706E6B;	
+    font-family: "Salesforce Sans";	
+    font-size: 14px;	
+    line-height: 20px;
+}
+.THIS .side-nav li{
+	padding: .25rem 0;
+	color: #284064;
+	font-family: "Salesforce Sans";
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: -0.01px;
+	line-height: 17px;
+}
+.THIS .side-nav li ul li{
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;
+    font-weight:normal;
+    letter-spacing: -0.01px;	
+    line-height: 17px;
+}
+
+.THIS .fill-container ul{
+     padding-left:1rem;
+}
+.THIS .support label span{
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 20px;
+}
+.THIS .support .email-label{
+    color: #294165;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    line-height: 20px;
+    margin-bottom:0;
+}
+.THIS .support .email-address{
+    color: #294165;	
+    font-family: "Salesforce Sans";	
+    font-size: 11px;	
+    line-height: 20px;
+    margin-top:0;
+}
+.THIS .org-id{
+    color: #294165;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    line-height: 20px;
+}
+.THIS .package-id{
+    color: #294165;	
+    font-family: "Salesforce Sans";	
+    font-size: 13px;	
+    line-height: 20px;
+    margin-bottom:1rem;
+}
+.THIS .tree-filter{
+    position: relative;
+    min-height: 35px;
+    margin: .75rem .5rem .75rem 1.5rem;
+}
+.THIS  .split-left{
+    width: 250px;
+    position: static;    
+    background-color:#fff;
+    /*top: 96px;*/
+    height: 100%;
+    float:left;
+    overflow: auto;
+    z-index: 5;
+        border-right: 1px solid rgb(217, 219, 221);
+}
+.THIS .slds-tree .slds-button {
+    align-self: flex-start;
+    margin-top: .40rem;
+}
+.THIS .sidebar-footer{
+    position:absolute;
+    width:100%;
+    bottom:0%;
+}
+.THIS  .split-right{
+    position:relative;
+    height: 100%;
+    float:right;
+    left: 0px;    
+    background-color:#fff;
+    width: calc(100% - 250px);
+    
+}
+.THIS .slds-tree[role="treeitem"][aria-selected="true"]>.slds-tree__item{
+	background:transparent!important;
+	box-shadow: none!important;
+}
+
+.THIS .slds-tree__item:hover{
+    background-color:transparent!important;
+}
+.THIS .slds-tree__item:focus{
+    background-color:transparent!important;
+}
+.THIS .slds-tree__item::selection{
+    background-color:transparent;
+}
+.THIS .slds-tree__item:active{
+    background-color:transparent;
+}
+.THIS .slds-tree__item:visited{
+    background-color:transparent;
+}
+.THIS .slds-tree__item:focus{
+    text-decoration:none;
+}
+
+.THIS .page-title{   
+    padding:0.75rem 0;    
+}
+.THIS .page-title h1{
+     color: #284064;	
+     font-family: "Salesforce Sans";	
+     font-size: 28px;	
+     font-weight: 300;	
+     line-height: 35px;
+}
+.THIS .integration-toggle label span.slds-form-element__label{
+    color: #294165;
+	font-family: "Salesforce Sans";
+	font-size: 13px;
+	line-height: 20px;
+}
+.THIS .slds-template_default{
+        padding: 0.75rem;
+}
+.THIS .card-title{
+      color: #425777;	
+      font-family: "Salesforce Sans";	
+      font-size: 20px;	
+      line-height: 25px;
+}
+
+.THIS .api-key{
+    align-items:center;
+}
+.THIS .api-key span{
+    padding-top: 15%;
+    display: flex;
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 20px;
+}
+.THIS .slds-box{
+    margin:1rem 0;
+}
+.THIS .slds-checkbox_on{
+    display:none!important;
+}
+.THIS .slds-checkbox_off{
+    display:none!important;
+}
+.THIS .single-row{
+    padding:1rem 0.75rem;
+}
+.THIS .single-row a{
+    font-size:1rem;
+}
+.THIS .single-row a .slds-icon-text-default{
+    fill:rgb(0, 109, 204);
+}
+.THIS .sync-settings hr{
+    margin:0;
+}
+.THIS .org-id{
+    padding:1rem;
+}
+.THIS .package-id{
+    padding:1rem;
+}
+.THIS .sidebar-footer hr{
+    margin:0;
+}
+.THIS .support{
+    padding:1rem 1rem 0rem;
+}
+.THIS .support p{
+    margin:10px 0;
+}
+.THIS .popup-table{
+    /*border-radius:4px;
+    border:1px solid #e2e2e2;*/
+}
+.THIS .popup-table thead tr th{
+    background-color:#e2e2e2;
+    padding:1rem 0.25rem;
+    color:#3E3E3C;
+    font-weight:normal;
+}
+.THIS .popup-table thead tr td{
+    width:33.33%;
+}
+.THIS .popup-table thead tr th:first-of-type{
+    border-top-left-radius:4px;
+}
+.THIS .popup-table thead tr th:last-of-type{
+    border-top-right-radius:4px;
+}
+.THIS .popup-table tbody tr td{
+    padding:1rem 0.25rem;
+    color:#3E3E3C;
+    font-weight:normal;
+    border-bottom:1px solid #e2e2e2;
+}
+.THIS .popup-table tbody{
+    
+}
+.THIS .popup-table tbody tr td p > span{
+    color:#3E3E3C;
+    font-size: 13px;	
+    font-weight: bold;	
+    line-height: 20px;
+}
+.THIS .popup-table tbody tr td:first-of-type{
+    border-left:1px solid #e2e2e2;
+}
+.THIS .popup-table tbody tr td:last-of-type{
+    border-right:1px solid #e2e2e2;
+}
+.THIS .popup-table tbody tr td:last-of-type{
+    text-align:center;
+}
+.THIS .popup-table thead tr th:last-of-type{
+ text-align:center;    
+}
+.THIS .popup-table tbody tr td:last-of-type input{
+ display:inline-block;	
+}
+.THIS .text-small{
+    font-size:12px;
+    color:#706E6B;
+}
+.THIS .popup-table tbody tr td span{
+    font-size: 13px;
+    line-height: 17px;
+    color:#3E3E3C;
+}
+.THIS .modal-title-content{
+        font-size: 15px;
+    line-height: 23px;
+    margin-bottom:10px;
+}
+.THIS .icon-td{
+    text-align:center;
+}
+.THIS .icon-td .slds-icon-text-default{
+    fill:#006dcd;
+
+}
+.THIS .slds-modal__header h2{
+    color:#2B2826;
+    font-weight:600;
+}
+.THIS .slds-button_icon-more{
+    border:none;
+}
+.THIS .popup-table .slds-dropdown_left{
+    left: -100px;
+}
+.THIS .split-left .slds-tree_container{
+    max-height: 50%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.THIS .pd-left-0{
+    padding-left:0;
+}
+.THIS .split-left .slds-tree_container::-webkit-scrollbar { width: 15px !important }
+.THIS .error-notify span{
+    padding-top: 35%;
+    display: flex;
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 20px;
+}
+.THIS .submit-btn{
+    margin-top:18%;
+}
+.THIS.slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}
+.THIS .popup-table tbody tr td{
+    width:33.33%;
+}
+.THIS .custom-text{
+    font-size: 1rem;
+    line-height: 1.25;
+}   
+.THIS .custom-margin{
+    margin:.75rem 0;
+}
+
+.THIS .table-container{    
+    max-height: 340px;
+    overflow-y: scroll;
+    }
+.THIS .table-container::-webkit-scrollbar{
+   width:10px;
+}
+.THIS .table-container::-webkit-scrollbar-track {
+background-color:rgba(0,0,0,0.2);
+border-radius: 10px;
+}
+.THIS .table-container::-webkit-scrollbar-thumb{
+  background-color:rgba(0,0,0,0.3);
+    border-radius: 10px;   
+}
+.THIS .alert-modal .fade{z-index:9001;}
+.THIS .alert-modal .slds-fade-in-open{z-index:9002;}
+
+@media(max-width:1366px){
+    .THIS .submit-btn{
+    margin-top:22%;
+}
+    .THIS .error-notify span{
+    padding-top: 45%;
+    display: flex;
+    color: #284064;	
+    font-family: "Salesforce Sans";	
+    font-size: 16px;	
+    line-height: 20px;
+}
+    .THIS .integration-toggle {
+    margin-top: 5px;
+    margin-left: 0%;
+}
+    .THIS .sync-btn{
+        right:20%;
+    }
+}

@@ -1,0 +1,48 @@
+<!--  
+* This component is used to create GreenhouseIntegrationSettings .
+* Code Written by: Ajay Kumar
+* on Date : 10/10/2018 11:00 AM
+* Last Modified By Ajay Kumar ,  10/10/2018 
+ -->
+<aura:component access="GLOBAL" controller="GreenHouseIntegrationSettings" implements="force:appHostable,force:hasRecordId,force:lightningQuickAction">
+    <!-- call doInit function on component load -->  
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <!-- create 2 aura handler with waiting and donewaiting events--> 
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <!-- aura attributes-->
+    <aura:attribute name="harvestApiKeyValue" type="string" description="store Custom Setting HarvestApiKey Value"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <aura:attribute name="orgId" type="String" default=""/>
+    
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <aura:if isTrue="{!v.Spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end-->
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-large-size_4-of-12"></div>
+        <div class="slds-col slds-large-size_4-of-12">
+            <div class="slds-p-bottom_large slds-p-left_large form-control">
+                
+                <!--Input Field-->
+                <lightning:input label="Harvest API Key" aura:id="harvestApiKey" value="{!v.harvestApiKeyValue.Harvest_API_Key__c}"/>
+                
+                <!-- Button For Submit -->
+                <div class="slds-p-bottom_large">
+                    <lightning:button variant="brand" class="slds-button slds-button_brand slds-float_right" onclick="{!c.Submit}">Submit</lightning:button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="slds-col slds-large-size_4-of-12"></div>
+    </div>
+</aura:component>

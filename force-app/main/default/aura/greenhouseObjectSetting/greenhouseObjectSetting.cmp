@@ -1,0 +1,478 @@
+<aura:component access="GLOBAL" controller="GreenHouseIntegrationSettings" implements="force:appHostable,force:hasRecordId,force:lightningQuickAction">
+    <ltng:require styles="{!$Resource.customStyles}" />
+    <ltng:require scripts="{!$Resource.jQuery}" afterScriptsLoaded="{!c.setScriptLoaded}" />
+    <!-- call doInit function on component load -->  
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <!-- aura attributes-->
+    <aura:attribute name="items" type="Object" access="PRIVATE"/>
+    <aura:attribute name="candidates" type="Object" access="PRIVATE"/>
+    <aura:attribute name="application" type="Object" access="PRIVATE"/>
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    <aura:attribute name="confirmPopup" type="Boolean" default="false"/>
+    <aura:attribute name="objName" type="String" default="Greenhouse__Job__c"/>
+    <aura:attribute name="openNewRow" type="Boolean" default="false"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="deleteRecord" type="Boolean" default="false"/>
+    <aura:attribute name="MainobjectList" type="List" default="[]"/>
+    <aura:attribute name="objectList" type="List" default="[]"/>
+    <aura:attribute name="searchObjName" type="String"/>
+    <aura:attribute name="labelName" type="String"/>
+    
+    <aura:attribute name="MainObjectClone" type="String"/>
+    <aura:attribute name="greenhouseMapping" type="greenhouseMappingWrapper"/>
+    
+    <aura:attribute name="objectFieldList" type="List" default="[]"/>
+    
+    <aura:attribute name="location" type="string" default=""/>
+    <aura:attribute name="predictions" type="List" default="[]"/>
+    
+    <aura:attribute name="ObjectName" type="String"/>
+    <aura:attribute name="ObjectNameClone" type="String"/>
+    <aura:attribute name="MainObjectName" type="String"/>
+    
+    <aura:attribute name="objNameShow" type="String" default=""/>
+    <aura:attribute name="activeSection" type="String"/>
+    
+    <aura:attribute name="greenhouseSetting" type="string" description="store Custom Setting HarvestApiKey Value"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="orgId" type="String" default=""/>
+    <aura:attribute name="lookupFields" type="String" default=""/>
+    <aura:attribute name="subjectObjectNameList" type="List" default="false"/>
+    <aura:attribute name="showErrorRequired" type="boolean" default="false"/>
+    
+    <aura:registerEvent name="AddRowEvent" type="c:AddNewRowEvt"/>   
+    <aura:attribute name="greenhouseMappingWrapperList" type="greenhouseMappingWrapper[]"/> 
+    
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    
+    <aura:if isTrue="{!v.Spinner}">
+        <lightning:spinner variant="brand"  size="large" />
+    </aura:if>
+    <!-- Loading spinner end-->
+      
+    
+    <!--page container-->
+    <div class="page-wrapper">
+      
+        <div class="page-header">
+            <div class="slds-template_default">
+        	 <!--page title-->
+                <div class="slds-grid slds-gutters page-title">
+                    <div class="slds-col slds-large-size_9-of-12">
+                        <h1>Greenhouse Integration Settings</h1>
+                    </div>
+                    <div class="slds-col slds-large-size_2-of-12 integration-toggle">
+                        <lightning:input type="toggle"  label="Integration ON/OFF:" name="input2" aura:id="toggleChange" checked="{!v.greenhouseSetting.Greenhouse__ON__c}" onchange="{!c.ToggleChange}"/>
+                        
+                    </div>
+                    <div class="slds-col slds-large-size_1-of-12 ">
+                    <lightning:button label="Sync Now"  class="slds_float-right sync-btn"  onclick="{!c.syncNow}" />
+                    </div>
+                </div>
+             </div>
+        </div>
+        <!--left sidebar-->
+        <div class="split-left">
+            <div class="fill-container slds-tree-container">
+                <!--div class="tree-filter">
+                    <div onkeyup="{! c.handleKeyUp }">
+                        <lightning:input aura:id="enter-search" name="enter-search" label="" 
+                                         type="search" placeholder="Quick Search" />
+                    </div>
+                </div-->
+                <!--lightning:tree items="{!v.items}" header="docgen admin home"/-->
+                <h1 class="slds-text-title--caps">Integration Settings</h1>
+                <ul class="side-nav">
+                    <li><b>Credentials</b></li>
+                    <li><b>Sync Settings</b>
+                    	<ul>
+                            <li>Jobs</li>
+                            <li>Candidates</li>
+                            <li>Applications</li>
+                        </ul>
+                     </li>
+                    <li><b>Error Notifications</b></li>
+                </ul>
+                <div class="sidebar-footer">                  
+                   
+                    <hr/>
+                    <div class="support">
+                        <label>
+                            <span class="slds-text-heading_small">Support Contacts</span>
+                        </label>
+                        <p class="email-label">Email:</p>
+                        <p class="email-address">support@sfgreenhouse.com</p>
+                    </div>
+                     <div class="org-id">
+                        <p>Your Organization id is:</p>
+                        <p>{!v.orgId}</p>
+                    </div>
+                    <div class="package-id">
+                        <p>Your Package Version Number is:</p>
+                        <p>V 1.0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--Content Area-->
+        <div class="split-right" aura-id="split_right">
+            <div class="slds-template_default">
+               
+                
+                <!--credentials entry-->
+                <div class="slds-box credentials">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-large-size_12-of-12">
+                            <h3 class="card-title">Credentials</h3>
+                        </div>
+                    </div>
+                    <div class="slds-grid api-key">
+                        <div class="slds-col slds-large-size_1-of-12">
+                            <label>
+                                <span class="slds-text-heading_small">API Key</span>
+                            </label>
+                        </div>
+                        <!--Input Field-->
+                        <div class="slds-col slds-large-size_3-of-12">
+                            <lightning:input type="password" aura:id="harvestApiKey" value="{!v.greenhouseSetting.Greenhouse__Harvest_API_Key__c}"/>  
+                        </div>
+                        <!-- Button For Submit -->
+                        <div class="slds-col slds-large-size_1-of-12">
+                            <lightning:button variant="brand" class="slds-button slds-button_brand slds-float_right submit-btn" onclick="{!c.Submit}">Update</lightning:button>
+                        </div>
+                        <div class="slds-col slds-large-size_7-of-12"></div>
+                    </div>	
+                </div>
+                
+                <!--sync settings-->
+                <div class="slds-box sync-settings">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-large-size_11-of-12">
+                            <h3 class="card-title">Sync Settings</h3>
+                        </div>
+                        <div class="slds-col slds-large-size_1-of-12">
+                            <h3 class="sync">Sync?</h3>
+                        </div>
+                    </div>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12 sync-accordian">
+                            <lightning:tree items="{!v.items}" />
+                            <!--lightning:accordion aura:id="accordion">
+        						<lightning:accordionSection name="A" label="Jobs">
+                                    <aura:set attribute="body">
+                                        <p>Job 1</p>
+                                        <p>Job 2</p>
+                                        <p>Job 3</p>
+                                    </aura:set>
+                                </lightning:accordionSection>
+                            </lightning:accordion-->
+                            <!--label>
+                                <span class="slds-text-heading_small">Jobs</span>
+                            </label-->	
+                        </div>
+                         <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button class="mngbtn" variant="base" label="Field Mapping" title="Manage mappings"  value="Jobs" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 sync-toggle">
+                            <lightning:input type="toggle"  checked="{!v.greenhouseSetting.Greenhouse__Sync_Jobs__c}" onchange="{!c.JobsToggleChange}" class="slds-float_right" />
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12 sync-accordian">
+                            <lightning:tree items="{!v.candidates}" />
+                            <!--lightning:accordion aura:id="accordion">
+        						<lightning:accordionSection name="A" label="Candidates">
+                                    <aura:set attribute="body">
+                                        <p>Candidates 1</p>
+                                        <p>Candidates 2</p>
+                                        <p>Candidates 3</p>
+                                    </aura:set>
+                                </lightning:accordionSection>
+                            </lightning:accordion-->
+                            <!--label>
+                                <span class="slds-text-heading_small slds-large-size_4-of-12">Candidates</span>
+                            </label-->	
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button class="mngbtn" variant="base" label="Field Mapping" title="Manage mappings" value="Candidates" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 sync-toggle">
+                            <lightning:input type="toggle" checked="{!v.greenhouseSetting.Greenhouse__Sync_Candidates__c}" onchange="{!c.CandidatesToggleChange}" class="slds-float_right" />
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12 sync-accordian">
+                            <lightning:tree class="accord" items="{!v.application}" />
+                            <!--lightning:accordion aura:id="accordion">
+        						<lightning:accordionSection name="A" label="Applications">
+                                    <aura:set attribute="body">
+                                        <p>Applications 1</p>
+                                        <p>Applications 2</p>
+                                        <p>Applications 3</p>
+                                    </aura:set>
+                                </lightning:accordionSection>
+                            </lightning:accordion-->
+                            <!--label>
+                                <span class="slds-text-heading_small">Applications</span>
+                            </label-->	
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button class="mngbtn" variant="base" label="Field Mapping" title="Manage mappings" value="Applications" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 sync-toggle">
+                            <lightning:input type="toggle" checked="{!v.greenhouseSetting.Greenhouse__Sync_Applications__c}" onchange="{!c.ApplicationsToggleChange}" class="slds-float_right" />
+                        </div>
+                        
+                    </div>                       
+                </div>
+                
+                <!--Field Mapping
+                <div class="slds-box sync-settings">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-large-size_12-of-12">
+                            <h3 class="card-title">Field Mapping</h3>
+                        </div>
+                    </div>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12">
+                            <label>
+                                <span class="slds-text-heading_small">Jobs</span>
+                            </label>	
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button variant="base" label="Manage mappings" title="Manage mappings"  value="Jobs" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12">
+                            <label>
+                                <span class="slds-text-heading_small slds-large-size_4-of-12">Candidates</span>
+                            </label>	
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button variant="base" label="Manage mappings" title="Manage mappings" value="Candidates" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="slds-grid single-row">
+                        <div class="slds-col slds-large-size_4-of-12">
+                            <label>
+                                <span class="slds-text-heading_small">Applications</span>
+                            </label>	
+                        </div>
+                        <div class="slds-col slds-large-size_4-of-12 slds-text-align_center">
+                            <lightning:button variant="base" label="Manage mappings" title="Manage mappings" value="Applications" iconName="utility:new_window" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div>
+                        
+                    </div>                       
+                </div>-->
+                
+                <!--Notifications-->
+                <div class="slds-box credentials">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-large-size_12-of-12">
+                            <h3 class="card-title">Error Notifications</h3>
+                        </div>
+                    </div>
+                    <div class="slds-grid error-notify">
+                        <!--div class="slds-col slds-large-size_1-of-12">
+                            <label>
+                                <span class="slds-text-heading_small">Email:</span>
+                            </label>
+                        </div-->
+                        <div class="slds-col slds-grid slds-large-size_3-of-12 slds-medium-size_3-of-12">
+                               <label class="pd-left-0 slds-col slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-col_padded">
+                                <span class="slds-text-heading_small">Email:</span>
+                            </label>
+                            <lightning:input aura:id="errorNotification" class="slds-col slds-medium-size_9-of-12 slds-large-size_9-of-12" value="{!v.greenhouseSetting.Greenhouse__Error_Email_Notifications__c}"/>   
+                        </div>
+                        <!-- Button For Submit -->
+                        <div class="slds-col slds-large-size_1-of-12 slds-medium-size_1-of-12">
+                            <lightning:button variant="brand" class="slds-button slds-button_brand slds-float_right submit-btn" onclick="{!c.SubmitErrorNotification}">Update</lightning:button>
+                        </div>
+                        <div class="slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12"></div>
+                    </div>	                 
+                </div>
+            </div>
+        </div>
+        
+        <!--modal popup-->
+        <aura:renderIf isTrue="{!v.isOpen}">
+            <div class="demo-only" style="max-height: 360px;" >        
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_large slds-fade-in-open">
+                    <div class="slds-modal__container" style="width: 85%!important;max-height: 600px;
+                                                              margin: 6% auto;">
+                        <!-- ###### MODAL BOX HEADER Start ######-->
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModel }"
+                                                  alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.objNameShow} Field Mapping</h2>
+                        </header>
+                        <!--###### MODAL BOX BODY Part Start######-->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            
+                            <p label="{!v.objNameShow}">{!v.objNameShow}</p>
+                            <table class="popup-table">
+                                <thead>
+                                    <tr>
+                                        <td class="predictList">
+                                            <span onkeyup="{!c.keyCheck}">
+                                                <!--input type="text" class="slds-input" variant="label-hidden" value="{!v.MainObjectName}" onclick="{!c.getAllMainObjects}" onkeyup="{!c.getSelectedMainObjects}" onchange="{!c.clearObject}" onblur="{!c.onclickOutside}"/-->
+                                                <lightning:input type="search" variant="label-hidden" value="{!v.MainObjectName}" onclick="{!c.getAllMainObjects}" onkeyup="{!c.getSelectedMainObjects}" onchange="{!c.clearObject}" onblur="{!c.onclickOutside}"/>
+                                            </span>
+                                            <aura:if isTrue="{!v.MainobjectList.length > 0}">
+                                                <ul class="city_predictions" style="width:100%;">
+                                                    <aura:iteration items="{!v.MainobjectList}" var="objName">
+                                                        <li class="slds-listbox__item">
+                                                            <div onclick="{!c.getSelectedMainObjectName}"  data-label="{!objName}">{!objName}</div>            
+                                                        </li>
+                                                    </aura:iteration>
+                                                    <div class="scrollbar" id="style-1">
+                                                        <div class="force-overflow"></div>
+                                                    </div>
+                                                </ul> 	 
+                                            </aura:if>
+                                            <br/>
+                                        </td>
+                                        <td class="lookup-type"></td>
+                                        <td></td>
+                                    </tr>
+                                </thead></table>
+                            <!-- Button For New Mapping -->
+                            <div class="table-container" >
+                                <table class="popup-table"> 
+                                    <thead>
+                                        <tr>
+                                            <th>Greenhouse Property</th>
+                                            <th>Salesforce Field</th>
+                                            <th class="Sync">Sync Field</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:if isTrue="{!v.greenhouseMappingWrapperList.length > 0}">
+                                            <aura:iteration items="{!v.greenhouseMappingWrapperList}" var="item" indexVar="index">
+                                                
+                                                <aura:if isTrue="{!item.greenhouseObject== v.objNameShow}">
+                                                    <c:greenhouseFieldMapping greenhouseMapping="{!item}" objName="{!v.MainObjectName}" showError="{!v.showError}"/>
+                                                </aura:if>
+                                            </aura:iteration>
+                                        </aura:if>
+                                    </tbody>
+                                </table>	
+                            </div>
+                            <lightning:accordion aura:id="accordion" activeSectionName="{!v.activeSection}" onsectiontoggle="{!c.getActiveSection}">
+                                <aura:if isTrue="{!v.subjectObjectNameList.length > 0}">
+                                    <aura:iteration items="{!v.subjectObjectNameList}" var="item" indexVar="index">
+                                        <lightning:accordionSection name="{!item}" label="{!item}">                                   
+                                            <div >
+                                                <table class="popup-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <td class="predictList">
+                                                                <!--input type="search" id="input-11" class="slds-input" value="{!v.greenhouseMapping.salesforceField}" data-test="test" onclick="{!c.getAllFields}" onchange="{!c.clearObject}" onkeyup="{!c.getSelectedFields}" onblur="{!c.closeDropdown}"/-->
+                                                                <lightning:input type="search" variant="label-hidden" value="{!v.ObjectName}" onclick="{!c.getAllObjects}" onkeyup="{!c.getSelectedObjects}" onchange="{!c.clearObject}" onblur="{!c.closeDropdown}"/>
+                                                                <aura:if isTrue="{!v.objectList.length > 0}">
+                                                                    <ul class="city_predictions" style="width:100%;">
+                                                                        <aura:iteration items="{!v.objectList}" var="objName">
+                                                                            <li class="slds-listbox__item">
+                                                                                <div onclick="{!c.getSelectedObjectName}" data-label="{!objName}">{!objName}</div>
+                                                                            </li>
+                                                                        </aura:iteration>
+                                                                        <div class="scrollbar" id="style-1">
+                                                                            <div class="force-overflow"></div>
+                                                                        </div>
+                                                                    </ul> 	 
+                                                                </aura:if>
+                                                                <br/>
+                                                            </td>
+                                                            <td class="lookup-type predictList">
+                                                                
+                                                                <input type="search" class="slds-input" variant="label-hidden" value="{!v.lookupFields}" onkeyup="{!c.test}" onclick="{!c.getAllFields}" onblur="{!c.lookupFieldClosed}"/>
+                                                                <aura:if isTrue="{!v.objectFieldList.length > 0}">
+                                                                    <ul class="city_predictions" style="width:98%;">
+                                                                        <aura:iteration items="{!v.objectFieldList}" var="objField">
+                                                                            <li class="slds-listbox__item">
+                                                                                <div onclick="{!c.getSelectedFieldName}" data-label="{!objField.value}">{!objField.value}</div>
+                                                                            </li>
+                                                                        </aura:iteration>
+                                                                    </ul> 	 
+                                                                </aura:if>
+                                                            </td>
+                                                        </tr> 
+                                                        <tr>
+                                                            <th>Greenhouse Property</th>
+                                                            <th>Salesforce Field</th>
+                                                            <th class="Sync">Sync Field</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <aura:if isTrue="{!v.greenhouseMappingWrapperList.length > 0}">
+                                                            <aura:iteration items="{!v.greenhouseMappingWrapperList}" var="item" indexVar="index">
+                                                                <aura:if isTrue="{!item.greenhouseObject== v.activeSection}">
+                                                                    <c:greenhouseFieldMapping greenhouseMapping="{!item}" objName="{!v.ObjectName}" showError="{!v.showError}"/>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </aura:if>
+                                                    </tbody>
+                                                </table>	
+                                            </div>
+                                        </lightning:accordionSection>
+                                    </aura:iteration>
+                                </aura:if>
+                                
+                            </lightning:accordion>                                                      
+                        </div>
+                        
+                        <!--###### MODAL BOX FOOTER Part Start ######-->
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.closeModel }"/>
+                            <lightning:button variant="brand" label="Save" title="Save" onclick="{!c.saveRecords}"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:renderIf>
+        <aura:if isTrue="{!v.confirmPopup}">
+            <div class="demo-only alert-modal" style="max-height: 240px;">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Alert!!!</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p><b>All field mapping will be deleted. Are your sure?</b></p>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" 
+                                          label="Yes"
+                                          title="Yes"
+                                          onclick="{!c.Yes}"/>
+                        <lightning:button variant="neutral" 
+                                          label="No"
+                                          title="No"
+                                          onclick="{!c.No}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open fade"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            </div>
+        </aura:if>
+    </div>
+</aura:component>
